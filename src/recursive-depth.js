@@ -21,7 +21,7 @@ export default class DepthCalculator {
       let stack = [];
       for (let item of arr) {
         if (Array.isArray(item)) {
-          stack.push(calculateDepth(item));
+          stack.push(this.calculateDepth(item));
         }
       }
       result += Math.max.apply(0, stack);
