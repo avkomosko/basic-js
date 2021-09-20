@@ -30,13 +30,13 @@ export default function repeater(str, options) {
       } else if (j === additionRepeatTimes - 1) {
         resultAddition += `${inputAddition}`;
       }
-      console.log(inputAddition, resultAddition);
     }
-    console.log(resultAddition);
   } else {
-    resultAddition += `${inputAddition}`;
+    if (options.addition) {
+      resultAddition += `${inputAddition}`;
+    }
   }
-  
+
   if (!options.repeatTimes || options.repeatTimes === 1) {
     if (!inputAddition || !resultAddition) {
       return str;
@@ -44,7 +44,7 @@ export default function repeater(str, options) {
       result += str + `${resultAddition}`;
     }
   } else if (options.repeatTimes > 1) {
-      for (let i = 0; i < options.repeatTimes; i++) {
+    for (let i = 0; i < options.repeatTimes; i++) {
       if (i < options.repeatTimes - 1) {
         result += str + `${resultAddition}` + `${separator}`;
       } else if (i === options.repeatTimes - 1) {
@@ -52,6 +52,6 @@ export default function repeater(str, options) {
       }
     }
   }
-  
+
   return result;
 }
