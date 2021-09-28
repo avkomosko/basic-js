@@ -20,12 +20,54 @@ import { NotImplementedError } from '../extensions/index.js';
  * 
  */
 export default class VigenereCipheringMachine {
-  encrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  // constructor(mode, string, key) {
+  //   this.mode = mode;
+  //   this.string =string;
+  //   this.key = key;
+  // }
+
+  encrypt(string, key) {
+    if (this.string === '' || this.key === '' || this.string === undefined || this.key === undefined) {
+      throw new Error('Incorrect arguments!');
+    }
+    let kf = Math.ceil(this.text.length / this.key.length);
+    this.key = this.key.repeat(kf);
+    const codeA = 'A'.charCodeAt(0);
+    const abcCount = 26;
+
+    let result =[];
+
+    for (let i = 0; i < this.text.length; i++) {
+      if (this.text[i] === ' ') {
+        result.push(this.text[i]);
+      } else {
+        let charIndex = this.text.charCodeAt(i) - codeA;
+        let shift = this.key.charCodeAt(i) - codeA;
+        result.push(String.fromCharCode(codeA + (charIndex + shift) % abcCount));
+      }
+    }
+    return (this.mode === '' || this.mode === true) ? this.result.join('') : this.result.reverse().join('');
   }
-  decrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  decrypt(string, key) {
+    if (this.string === '' || this.key === '' || this.string === undefined || this.key === undefined) {
+      throw new Error('Incorrect arguments!');
+    }
+    let kf = Math.ceil(this.text.length / this.key.length);
+    this.key = this.key.repeat(kf);
+    const codeA = 'A'.charCodeAt(0);
+    const abcCount = 26;
+
+    let result =[];
+
+    for (let i = 0; i < this.text.length; i++) {
+      if (this.text[i] === ' ') {
+        result.push(this.text[i]);
+      } else {
+        let charIndex = this.text.charCodeAt(i) - codeA;
+        let shift = this.key.charCodeAt(i) - codeA;
+        result.push(String.fromCharCode(codeA + (charIndex - shift + abcCount) % abcCount));
+      }
+    }
+    return (this.mode === '' || this.mode === true) ? this.result.join('') : this.result.reverse().join('');
   }
 }

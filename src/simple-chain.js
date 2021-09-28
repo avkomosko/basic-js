@@ -7,7 +7,7 @@ import { NotImplementedError } from '../extensions/index.js';
 export default {
   chain: [],
   getLength() {
-    return this.length;
+    return this.chain.length;
   },
   addLink(value) {
     this.chain.push(`\( ${value} \)`);
@@ -15,18 +15,19 @@ export default {
   },
   removeLink(position) {
     if (
-      !position ||
-      !Number.isInteger(position) ||
-      position >= this.getLength() ||
-      !this.chain.includes(position)
+      this.position === 0 || 
+      !Number.isInteger(this.position) ||
+      this.position >= this.getLength() -1 || 
+      !this.chain.includes(this.position)
     ) {
       this.chain.length = 0;
       throw new Error("You can't remove incorrect link!");
-    } else {
-      let pos = this.chain.indexOf(position);
-      this.chain = this.chain.slice(0, pos).concat(this.chain.slice(pos + 1));
-    }
-    return this;
+    } 
+    
+    // let pos = this.chain.indexOf(this.position);
+    this.chain = this.chain.slice(0, this.chain.indexOf(this.position)).concat(this.chain.slice(this.chain.indexOf(this.position)+1));
+      
+    return this.chain;
   },
   reverseChain() {
     this.chain.reverse();
@@ -36,5 +37,5 @@ export default {
     let result = this.chain.join('~~');
     this.chain.length = 0;
     return result;
-  },
+  }
 };
