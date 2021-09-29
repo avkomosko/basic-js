@@ -20,50 +20,60 @@ import { NotImplementedError } from '../extensions/index.js';
  * 
  */
 export default class VigenereCipheringMachine {
-  // constructor(mode, string, key) {
-  //   this.mode = mode;
-  //   this.string =string;
-  //   this.key = key;
-  // }
+  constructor(mode) {
+    this.mode = mode;
+    // this.string =string;
+    // this.key = key;
+  }
+
+  mode = '';
 
   encrypt(string, key) {
     if (this.string === '' || this.key === '' || this.string === undefined || this.key === undefined) {
       throw new Error('Incorrect arguments!');
     }
-    let kf = Math.ceil(this.text.length / this.key.length);
+
+    this.string = this.string.toUpperCase();
+	  this.key = this.key.toUpperCase();
+    let kf = Math.ceil(this.string.length / this.key.length);
     this.key = this.key.repeat(kf);
     const codeA = 'A'.charCodeAt(0);
     const abcCount = 26;
-
+    
     let result =[];
 
-    for (let i = 0; i < this.text.length; i++) {
-      if (this.text[i] === ' ') {
-        result.push(this.text[i]);
+    for (let i = 0; i < this.string.length; i++) {
+     if (!/[A-Z]/.test(this.string[i])) {
+        result.push(this.string[i]);
+        this.key = this.key.slice(0, i) + " " + this.key.slice(i);
       } else {
-        let charIndex = this.text.charCodeAt(i) - codeA;
+        let charIndex = this.string.charCodeAt(i) - codeA;
         let shift = this.key.charCodeAt(i) - codeA;
         result.push(String.fromCharCode(codeA + (charIndex + shift) % abcCount));
       }
     }
-    return (this.mode === '' || this.mode === true) ? this.result.join('') : this.result.reverse().join('');
+    return (this.mode === '' || this.mode === true) ? result.join('') : result.reverse().join('');
   }
+
   decrypt(string, key) {
     if (this.string === '' || this.key === '' || this.string === undefined || this.key === undefined) {
       throw new Error('Incorrect arguments!');
     }
-    let kf = Math.ceil(this.text.length / this.key.length);
+    this.string = this.string.toUpperCase();
+    this.key = this.key.toUpperCase();
+    let kf = Math.ceil(this.string.length / this.key.length);
     this.key = this.key.repeat(kf);
     const codeA = 'A'.charCodeAt(0);
     const abcCount = 26;
 
     let result =[];
 
-    for (let i = 0; i < this.text.length; i++) {
-      if (this.text[i] === ' ') {
-        result.push(this.text[i]);
+    for (let i = 0; i < this.string.length; i++) {
+      if (!/[A-Z]/.test(this.string[i])) {
+        result.push(this.string[i]);
+        this.key = this.key.slice(0, i) + " " + this.key.slice(i);
       } else {
-        let charIndex = this.text.charCodeAt(i) - codeA;
+        let charIndex = this.string.charCodeAt(i) - codeA;
         let shift = this.key.charCodeAt(i) - codeA;
         result.push(String.fromCharCode(codeA + (charIndex - shift + abcCount) % abcCount));
       }
