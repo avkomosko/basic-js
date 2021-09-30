@@ -22,62 +22,58 @@ import { NotImplementedError } from '../extensions/index.js';
 export default class VigenereCipheringMachine {
   constructor(mode) {
     this.mode = mode;
-    // this.string =string;
-    // this.key = key;
   }
 
-  mode = '';
-
   encrypt(string, key) {
-    if (this.string === '' || this.key === '' || this.string === undefined || this.key === undefined) {
+    if (string === '' || key === '' || string === undefined || key === undefined) {
       throw new Error('Incorrect arguments!');
     }
 
-    this.string = this.string.toUpperCase();
-	  this.key = this.key.toUpperCase();
-    let kf = Math.ceil(this.string.length / this.key.length);
-    this.key = this.key.repeat(kf);
+    string = string.toUpperCase();
+	  key = key.toUpperCase();
+    let kf = Math.ceil(string.length / key.length);
+    key = key.repeat(kf);
     const codeA = 'A'.charCodeAt(0);
     const abcCount = 26;
     
     let result =[];
 
-    for (let i = 0; i < this.string.length; i++) {
-     if (!/[A-Z]/.test(this.string[i])) {
-        result.push(this.string[i]);
-        this.key = this.key.slice(0, i) + " " + this.key.slice(i);
+    for (let i = 0; i < string.length; i++) {
+     if (!/[A-Z]/.test(string[i])) {
+        result.push(string[i]);
+        key = key.slice(0, i) + " " + key.slice(i);
       } else {
-        let charIndex = this.string.charCodeAt(i) - codeA;
-        let shift = this.key.charCodeAt(i) - codeA;
+        let charIndex = string.charCodeAt(i) - codeA;
+        let shift = key.charCodeAt(i) - codeA;
         result.push(String.fromCharCode(codeA + (charIndex + shift) % abcCount));
       }
     }
-    return (this.mode === '' || this.mode === true) ? result.join('') : result.reverse().join('');
+    return (this.mode === '' || this.mode === true || !this.mode) ? result.join('') : result.reverse().join('');
   }
 
   decrypt(string, key) {
-    if (this.string === '' || this.key === '' || this.string === undefined || this.key === undefined) {
+    if (string === '' || key === '' || string === undefined || key === undefined) {
       throw new Error('Incorrect arguments!');
     }
-    this.string = this.string.toUpperCase();
-    this.key = this.key.toUpperCase();
-    let kf = Math.ceil(this.string.length / this.key.length);
-    this.key = this.key.repeat(kf);
+    string = string.toUpperCase();
+    key = key.toUpperCase();
+    let kf = Math.ceil(string.length / key.length);
+    key = key.repeat(kf);
     const codeA = 'A'.charCodeAt(0);
     const abcCount = 26;
 
     let result =[];
 
-    for (let i = 0; i < this.string.length; i++) {
-      if (!/[A-Z]/.test(this.string[i])) {
-        result.push(this.string[i]);
-        this.key = this.key.slice(0, i) + " " + this.key.slice(i);
+    for (let i = 0; i < string.length; i++) {
+      if (!/[A-Z]/.test(string[i])) {
+        result.push(string[i]);
+        key = key.slice(0, i) + " " + key.slice(i);
       } else {
-        let charIndex = this.string.charCodeAt(i) - codeA;
-        let shift = this.key.charCodeAt(i) - codeA;
+        let charIndex = string.charCodeAt(i) - codeA;
+        let shift = key.charCodeAt(i) - codeA;
         result.push(String.fromCharCode(codeA + (charIndex - shift + abcCount) % abcCount));
       }
     }
-    return (this.mode === '' || this.mode === true) ? this.result.join('') : this.result.reverse().join('');
+    return (this.mode === '' || this.mode === true || !this.mode) ? result.join('') : result.reverse().join('');
   }
 }
