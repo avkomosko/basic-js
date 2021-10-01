@@ -48,6 +48,7 @@ export default class VigenereCipheringMachine {
         result.push(String.fromCharCode(codeA + (charIndex + shift) % abcCount));
       }
     }
+    console.log('string:',string, 'key:', key, 'result:', result);
     return (this.mode === '' || this.mode === true || !this.mode) ? result.join('') : result.reverse().join('');
   }
 
@@ -67,13 +68,14 @@ export default class VigenereCipheringMachine {
     for (let i = 0; i < string.length; i++) {
       if (!/[A-Z]/.test(string[i])) {
         result.push(string[i]);
-        key = key.slice(0, i) + " " + key.slice(i);
+        key = key.slice(0, i) + ' ' + key.slice(i);
       } else {
         let charIndex = string.charCodeAt(i) - codeA;
         let shift = key.charCodeAt(i) - codeA;
         result.push(String.fromCharCode(codeA + (charIndex - shift + abcCount) % abcCount));
       }
     }
+    console.log('string:',string, 'key:', key, 'result:', result);
     return (this.mode === '' || this.mode === true || !this.mode) ? result.join('') : result.reverse().join('');
   }
 }
